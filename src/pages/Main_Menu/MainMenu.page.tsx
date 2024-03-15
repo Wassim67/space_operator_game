@@ -5,6 +5,18 @@ import CustomButton from "../../components/CustomButton";
 import styles from "./styles";
 import CustomText from "../../components/CustomText";
 import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { NavigationProp } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
+
+// Utilisez NavigationProp avec votre objet ParamList
+interface MainMenuProps {
+  navigation: NavigationProp<any>;
+}
+
+export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
+  const { t } = useTranslation();
+=======
 import { RootStackParamList } from "../../RootStackParamList";
 import { StackNavigationProp } from "@react-navigation/stack";
 
@@ -12,6 +24,7 @@ interface MainMenuProps {
   navigation: StackNavigationProp<RootStackParamList, "MainMenu">;
 }
 export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
+
   const handleCreateGame = () => {
     navigation.navigate("CreateGame", { gamerId: "7" });
   };
@@ -28,6 +41,11 @@ export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
     console.log("Quitter");
   };
 
+  const handleSetting = () => {
+    navigation.navigate("Settings");
+    console.log("Settings");
+  };
+
   return (
     <SafeAreaView style={styles.containermain}>
       <View style={styles.container}>
@@ -42,14 +60,16 @@ export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
           <CustomText style={styles.title}>
             ID : a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11
           </CustomText>
-          <CustomButton title="Créer une partie" onPress={handleCreateGame} />
-          <CustomButton title="Rejoindre une partie" onPress={handleJoinGame} />
-          <CustomButton title="Historique" onPress={handleHistory} />
-          <CustomButton title="Quitter" onPress={handleExit} />
+          <CustomButton title={t("main_menu.create_game")} onPress={handleCreateGame} />
+          <CustomButton title={t("main_menu.join_game")} onPress={handleJoinGame} />
+          <CustomButton title={t("main_menu.history")} onPress={handleHistory} />
+          <CustomButton title={t("main_menu.exit_game")} onPress={handleExit} />
         </View>
       </View>
       <View style={styles.boutique}>
-        <Ionicons name="settings-outline" size={50} color="white" />
+        <TouchableOpacity onPress={handleSetting}>
+          <Ionicons name="settings-outline" size={50} color="white" />
+        </TouchableOpacity>
         <AntDesign name="questioncircleo" size={50} color="white" />
         <Ionicons name="information-circle-outline" size={60} color="white" />
         <Feather name="shopping-cart" size={50} color="white" />
