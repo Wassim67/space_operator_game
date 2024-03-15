@@ -1,0 +1,14 @@
+{
+    "settings": {
+      "music": "Music",
+      "volume": "Volume",
+      "language": "Language",
+      "exit": "Exit"
+    },
+    "main_menu": {
+      "create_game": "Create game",
+      "join_game": "Join game",
+      "history": "History",
+      "exit_game": "Quit"
+  }
+}

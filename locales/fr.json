@@ -1,0 +1,15 @@
+{
+    "settings": {
+      "music": "Musique",
+      "volume": "Volume",
+      "language": "Langue",
+      "exit": "Quitter"
+    },
+    "main_menu": {
+      "create_game": "Créer une partie",
+      "join_game": "Rejoindre une partie",
+      "history": "Historique",
+      "exit_game": "Quitter le jeu"
+    }
+  }
+  
