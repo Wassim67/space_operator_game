@@ -1,12 +1,6 @@
 import * as React from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  StyleProp,
-  TextStyle,
-  Image,
-} from "react-native";
+import { Text, View, SafeAreaView, Image } from "react-native";
+import { NavigationProp } from "@react-navigation/native"; // Importer NavigationProp
 import CustomButton from "../../components/CustomButton";
 import styles from "./styles";
 import CustomText from "../../components/CustomText";
@@ -22,8 +16,17 @@ interface MainMenuProps {
 
 export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
   const { t } = useTranslation();
+=======
+import { RootStackParamList } from "../../RootStackParamList";
+import { StackNavigationProp } from "@react-navigation/stack";
+
+interface MainMenuProps {
+  navigation: StackNavigationProp<RootStackParamList, "MainMenu">;
+}
+export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
+
   const handleCreateGame = () => {
-    console.log("Créer une partie");
+    navigation.navigate("CreateGame", { gamerId: "7" });
   };
 
   const handleJoinGame = () => {

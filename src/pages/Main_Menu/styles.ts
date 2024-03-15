@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 
   },
   playerContainer: {
-    display: 'flex', 
+    display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: windowHeight * 0.2
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     height: 300, // Définir la hauteur souhaitée
   },
   boutique: {
-    display: 'flex', 
+    display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
 

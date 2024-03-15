@@ -9,7 +9,7 @@ export const GlobalTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    text: '#333333',
+    text: '#211D1D',
   },
   fonts: {
     regular: 'Barlow_400Regular',
