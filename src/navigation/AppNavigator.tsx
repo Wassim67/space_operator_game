@@ -8,6 +8,7 @@ import {
   Barlow_700Bold,
   useFonts,
 } from "@expo-google-fonts/barlow";
+import CreateGame from "../pages/Create_Game/CreateGame.page";
 
 const Stack = createStackNavigator();
 
@@ -32,9 +33,16 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        {/* Page principale */}
         <Stack.Screen
           name="MainMenu"
           component={MainMenu}
+          options={{ headerShown: false }}
+        />
+        {/* Page de création de jeu */}
+        <Stack.Screen
+          name="CreateGame"
+          component={CreateGame}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
