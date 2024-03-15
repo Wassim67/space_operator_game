@@ -4,5 +4,6 @@ import { StackNavigationProp } from "@react-navigation/stack";
 export type RootStackParamList = {
   MainMenu: undefined; // L'écran MainMenu sans paramètres
   CreateGame: { gamerId: string }; // L'écran CreateGame avec un paramètre gameId de type string
+  Settings: undefined;
   // Ajoutez d'autres écrans et leurs paramètres ici si nécessaire
 };

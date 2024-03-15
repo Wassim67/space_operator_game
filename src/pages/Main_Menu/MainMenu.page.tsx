@@ -1,29 +1,26 @@
 import * as React from "react";
-import { Text, View, SafeAreaView, Image } from "react-native";
-import { NavigationProp } from "@react-navigation/native"; // Importer NavigationProp
-import CustomButton from "../../components/CustomButton";
-import styles from "./styles";
-import CustomText from "../../components/CustomText";
-import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { NavigationProp } from "@react-navigation/native";
+import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
-
-// Utilisez NavigationProp avec votre objet ParamList
-interface MainMenuProps {
-  navigation: NavigationProp<any>;
-}
-
-export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
-  const { t } = useTranslation();
-=======
-import { RootStackParamList } from "../../RootStackParamList";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../../RootStackParamList";
+import CustomButton from "../../components/CustomButton";
+import CustomText from "../../components/CustomText";
+import styles from "./styles";
 
 interface MainMenuProps {
   navigation: StackNavigationProp<RootStackParamList, "MainMenu">;
 }
+
 export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
+  const { t } = useTranslation();
 
   const handleCreateGame = () => {
     navigation.navigate("CreateGame", { gamerId: "7" });
@@ -60,9 +57,18 @@ export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
           <CustomText style={styles.title}>
             ID : a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11
           </CustomText>
-          <CustomButton title={t("main_menu.create_game")} onPress={handleCreateGame} />
-          <CustomButton title={t("main_menu.join_game")} onPress={handleJoinGame} />
-          <CustomButton title={t("main_menu.history")} onPress={handleHistory} />
+          <CustomButton
+            title={t("main_menu.create_game")}
+            onPress={handleCreateGame}
+          />
+          <CustomButton
+            title={t("main_menu.join_game")}
+            onPress={handleJoinGame}
+          />
+          <CustomButton
+            title={t("main_menu.history")}
+            onPress={handleHistory}
+          />
           <CustomButton title={t("main_menu.exit_game")} onPress={handleExit} />
         </View>
       </View>
