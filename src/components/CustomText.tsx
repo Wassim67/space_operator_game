@@ -1,19 +1,22 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, TextStyle } from "react-native";
 
 interface CustomTextProps {
   children: React.ReactNode;
-  style?: any;
+  style?: TextStyle;
+  bold?: boolean;
 }
 
-const CustomText: React.FC<CustomTextProps> = ({ children, style }) => {
-  return <Text style={[styles.text, style]}>{children}</Text>;
+const CustomText: React.FC<CustomTextProps> = ({ children, style, bold }) => {
+  const textStyle = bold ? styles.boldText : undefined;
+  return <Text style={[textStyle, style]}>{children}</Text>;
 };
 
 const styles = StyleSheet.create({
-  text: {
-    fontFamily: "Barlow_400Regular",
+  boldText: {
+    fontFamily: "Barlow_700Bold",
     color: "white",
+    fontWeight: "bold",
   },
 });
 
