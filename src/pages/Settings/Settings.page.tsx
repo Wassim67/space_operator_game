@@ -7,9 +7,11 @@ import { NavigationProp } from "@react-navigation/native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import styles from "./styles";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RootStackParamList } from "../../RootStackParamList";
 
 interface SettingsProps {
-  navigation: NavigationProp<any>;
+  // navigation: NavigationProp<any>;
+  navigation: NavigationProp<RootStackParamList, "Settings">;
 }
 
 const Settings: React.FC<SettingsProps> = ({ navigation }) => {

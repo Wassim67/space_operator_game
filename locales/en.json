@@ -10,5 +10,10 @@
       "join_game": "Join game",
       "history": "History",
       "exit_game": "Quit"
+  },
+  "help": {
+    "exit": "Exit",
+    "rule_game_title": "Rules of the game",
+    "rule_game": "Space Operators is a cooperative multiplayer game in which players take it in turns to take on the role of instructor or operator aboard a spaceship that is subject to constant breakdowns. The instructors must quickly and clearly communicate the operations to be performed to the operators, who must carry them out correctly and on time. Over time, the turns become shorter, making communication and task completion more difficult. Failure to complete tasks or failures to communicate lead to a reduction in the integrity of the vessel and increase the risk of explosion."
   }
-}
+} 

@@ -1,15 +1,19 @@
 {
-    "settings": {
-      "music": "Musique",
-      "volume": "Volume",
-      "language": "Langue",
-      "exit": "Quitter"
-    },
-    "main_menu": {
-      "create_game": "Créer une partie",
-      "join_game": "Rejoindre une partie",
-      "history": "Historique",
-      "exit_game": "Quitter le jeu"
-    }
+  "settings": {
+    "music": "Musique",
+    "volume": "Volume",
+    "language": "Langue",
+    "exit": "Quitter"
+  },
+  "main_menu": {
+    "create_game": "Créer une partie",
+    "join_game": "Rejoindre une partie",
+    "history": "Historique",
+    "exit_game": "Quitter le jeu"
+  },
+  "help": {
+    "exit": "Quitter",
+    "rule_game_title": "Règle du jeu",
+    "rule_game": "Space Operators, est un jeu multijoueur en coopération, les joueurs assument tour à tour le rôle d'instructeur ou d'opérateur à bord d'un vaisseau spatial sujet à des pannes constantes. Les instructeurs doivent communiquer rapidement et clairement les opérations à effectuer aux opérateurs, qui doivent les exécuter correctement et dans les délais impartis. Avec le temps, les tours deviennent plus courts, rendant la communication et l'exécution des tâches plus difficiles. L'échec dans l'accomplissement des tâches ou dans la communication entraîne une diminution de l'intégrité du vaisseau et augmente le risque d'explosion."
   }
-  
+}
