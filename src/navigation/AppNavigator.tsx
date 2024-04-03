@@ -1,17 +1,23 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { MainMenu } from "../pages/Main_Menu/MainMenu.page";
-import Settings from "../pages/Settings/Settings.page";
-import SplashScreen from "../pages/Splash_Screen/SplashScreen.page";
 import {
   Barlow_400Regular,
   Barlow_700Bold,
   useFonts,
 } from "@expo-google-fonts/barlow";
 import { I18nextProvider } from "react-i18next";
-import i18n from "../../i18n"; // Chemin vers le fichier de configuration i18n.js
+
+// Chemin vers le fichier de configuration i18n.js
+import i18n from "../../i18n";
+
+//import des pages
+import  MainMenu  from "../pages/Main_Menu/MainMenu.page";
+import SplashScreen from "../pages/Splash_Screen/SplashScreen.page";
+import Settings from "../pages/Settings/Settings.page";
 import CreateGame from "../pages/Create_Game/CreateGame.page";
+import Help from "../pages/Help/Help.page";
+import Information from "../pages/Information/Information.page";
 import { ChangeName } from "../pages/Change_Name/ChangeName";
 
 const Stack = createStackNavigator();
@@ -51,6 +57,16 @@ const AppNavigator = () => {
           <Stack.Screen
             name="CreateGame"
             component={CreateGame}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Help"
+            component={Help}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Information"
+            component={Information}
             options={{ headerShown: false }}
           />
           {/* <Stack.Screen

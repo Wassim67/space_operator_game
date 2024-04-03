@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { NavigationProp } from "@react-navigation/native";
+import { View, SafeAreaView, Image, TouchableOpacity } from "react-native";
 import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -19,7 +12,7 @@ interface MainMenuProps {
   navigation: StackNavigationProp<RootStackParamList, "MainMenu">;
 }
 
-export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
+const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
   const { t } = useTranslation();
 
   const handleCreateGame = () => {
@@ -47,6 +40,16 @@ export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
     navigation.navigate("ChangeName"); // Naviguer vers la page ChangeName
   };
 
+  const handleHelp = () => {
+    navigation.navigate("Help");
+    console.log("Help");
+  };
+
+  const handleInformation = () => {
+    navigation.navigate("Information");
+    console.log("Information");
+  };
+
   return (
     <SafeAreaView style={styles.containermain}>
       <View style={styles.container}>
@@ -56,7 +59,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
           </TouchableOpacity>
           <CustomText style={styles.title}>Juliano Capitain</CustomText>
           <Image
-            source={require("./assets/astronaute.jpg")}
+            source={require("./assets/astronaute.jpg")} // Assurez-vous que le chemin de l'image est correct
             style={styles.image}
           />
         </View>
@@ -83,8 +86,16 @@ export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
         <TouchableOpacity onPress={handleSetting}>
           <Ionicons name="settings-outline" size={50} color="white" />
         </TouchableOpacity>
-        <AntDesign name="questioncircleo" size={50} color="white" />
-        <Ionicons name="information-circle-outline" size={60} color="white" />
+        <TouchableOpacity onPress={handleHelp}>
+          <AntDesign name="questioncircleo" size={50} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleInformation}>
+          <Ionicons
+            name="information-circle-outline"
+            size={60}
+            color="white"
+          />
+        </TouchableOpacity>
         <Feather name="shopping-cart" size={50} color="white" />
       </View>
     </SafeAreaView>

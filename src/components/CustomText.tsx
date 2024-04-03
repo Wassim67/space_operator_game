@@ -2,7 +2,7 @@ import React from "react";
 import { Text, StyleSheet, TextStyle } from "react-native";
 
 interface CustomTextProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   style?: TextStyle;
   bold?: boolean;
 }
