@@ -12,6 +12,7 @@ import {
 import { I18nextProvider } from "react-i18next";
 import i18n from "../../i18n"; // Chemin vers le fichier de configuration i18n.js
 import CreateGame from "../pages/Create_Game/CreateGame.page";
+import { ChangeName } from "../pages/Change_Name/ChangeName";
 
 const Stack = createStackNavigator();
 
@@ -52,6 +53,11 @@ const AppNavigator = () => {
             component={CreateGame}
             options={{ headerShown: false }}
           />
+          {/* <Stack.Screen
+            name="ChangeName"
+            options={{ headerShown: false }}
+            component={ChangeName}
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </I18nextProvider>

@@ -42,11 +42,18 @@ export const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
     navigation.navigate("Settings");
     console.log("Settings");
   };
+  // change name
+  const handleChangeName = () => {
+    navigation.navigate("ChangeName"); // Naviguer vers la page ChangeName
+  };
 
   return (
     <SafeAreaView style={styles.containermain}>
       <View style={styles.container}>
         <View style={styles.playerContainer}>
+          <TouchableOpacity onPress={handleChangeName}>
+            <Feather name="edit" size={20} color="white" />
+          </TouchableOpacity>
           <CustomText style={styles.title}>Juliano Capitain</CustomText>
           <Image
             source={require("./assets/astronaute.jpg")}
