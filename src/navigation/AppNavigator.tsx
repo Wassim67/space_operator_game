@@ -18,6 +18,7 @@ import Settings from "../pages/Settings/Settings.page";
 import CreateGame from "../pages/Create_Game/CreateGame.page";
 import Help from "../pages/Help/Help.page";
 import Information from "../pages/Information/Information.page";
+import { ChangeName } from "../pages/Change_Name/ChangeName";
 
 const Stack = createStackNavigator();
 
@@ -63,11 +64,16 @@ const AppNavigator = () => {
             component={Help}
             options={{ headerShown: false }}
           />
-                    <Stack.Screen
+          <Stack.Screen
             name="Information"
             component={Information}
             options={{ headerShown: false }}
           />
+          {/* <Stack.Screen
+            name="ChangeName"
+            options={{ headerShown: false }}
+            component={ChangeName}
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </I18nextProvider>

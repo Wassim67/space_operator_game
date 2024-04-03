@@ -35,6 +35,10 @@ const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
     navigation.navigate("Settings");
     console.log("Settings");
   };
+  // change name
+  const handleChangeName = () => {
+    navigation.navigate("ChangeName"); // Naviguer vers la page ChangeName
+  };
 
   const handleHelp = () => {
     navigation.navigate("Help");
@@ -50,6 +54,9 @@ const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
     <SafeAreaView style={styles.containermain}>
       <View style={styles.container}>
         <View style={styles.playerContainer}>
+          <TouchableOpacity onPress={handleChangeName}>
+            <Feather name="edit" size={20} color="white" />
+          </TouchableOpacity>
           <CustomText style={styles.title}>Juliano Capitain</CustomText>
           <Image
             source={require("./assets/astronaute.jpg")} // Assurez-vous que le chemin de l'image est correct

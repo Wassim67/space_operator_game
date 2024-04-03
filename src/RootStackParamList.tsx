@@ -5,5 +5,5 @@ export type RootStackParamList = {
   Settings: undefined;
   Help: undefined;
   Information: undefined;
-  // autres écrans...
+  ChangeName: undefined;
 };
