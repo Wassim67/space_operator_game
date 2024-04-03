@@ -1,24 +1,3 @@
-// import React from "react";
-// import { View, ViewStyle, StyleSheet } from "react-native";
-
-// interface CustomViewProps {
-//   children?: React.ReactNode;
-//   backgroundColor?: string; // Couleur d'arrière-plan
-//   borderRadius?: number; // Rayon de bordure
-//   style?: ViewStyle; // Autres styles personnalisés
-// }
-
-// const CustomView: React.FC<CustomViewProps> = ({ backgroundColor, borderRadius, style, children }) => {
-//   const viewStyle: ViewStyle = {
-//     backgroundColor,
-//     borderRadius,
-//     ...style,
-//   };
-
-//   return <View style={viewStyle}>{children}</View>;
-// };
-
-// export default CustomView;
 import React from "react";
 import { View, ViewStyle, StyleSheet } from "react-native";
 
