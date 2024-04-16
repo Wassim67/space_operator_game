@@ -8,6 +8,7 @@ interface CustomButtonProps {
   color?: string;
   textColor?: string;
   size?: "small" | "medium" | "large"; // Nouvelle prop pour la taille du bouton
+  borderRadius?: number; // Nouvelle prop pour le borderRadius du bouton
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -16,6 +17,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   color = GlobalTheme.colors.background,
   textColor = "#000000",
   size = "medium", // Par défaut, la taille du bouton est moyenne
+  borderRadius = 20, // Par défaut, le borderRadius est de 20
 }) => {
   let buttonStyle: ViewStyle = {};
   let textStyle: TextStyle = {};
@@ -41,7 +43,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       style={[
         styles.button,
         buttonStyle,
-        { backgroundColor: color },
+        { backgroundColor: color, borderRadius: borderRadius },
       ]}
       onPress={onPress}
     >
@@ -60,7 +62,6 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 20,
     marginVertical: 5,
     marginTop: 18,
     alignItems: "center",

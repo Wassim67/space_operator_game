@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, FlatList, View } from "react-native";
 import CustomText from "../../components/CustomText";
-import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
-import Item from "../../components/Item";
-import styles from "./styles";
 import CustomButton from "../../components/CustomButton";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../RootStackParamList";
+import Item from "../../components/Item";
+import styles from "./styles";
 
 interface UserData {
   id: string;
@@ -17,22 +17,21 @@ interface UserData {
 const DATA: UserData[] = [
   { id: "1", username: "WSM", statut: "Prêt" },
   { id: "2", username: "Captain Juliano", statut: "En attente" },
-  { id: "3", username: "kjj", statut: "En attente" },
-  { id: "4", username: "kjj", statut: "En attente" },
-  { id: "5", username: "kjj", statut: "En attente" },
-  { id: "6", username: "kjj", statut: "En attente" },
-  { id: "7", username: "kjj", statut: "En attente" },
-  { id: "8", username: "kjj", statut: "En attente" },
 ];
 
 interface MainMenuProps {
   navigation: StackNavigationProp<RootStackParamList, "MainMenu">;
+  // route: RouteProp<RootStackParamList, "CreateGame">;
 }
 
-export const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
+export const CreateGame: React.FC<MainMenuProps> = ({ navigation}) => {
+  const ws = new WebSocket("wss://space-operators-bb2423167918.herokuapp.com");
+
+  const gameId = 85;
   const renderItem = ({ item }: { item: UserData }) => (
     <Item username={item.username} statut={item.statut} />
   );
+
   const handleQuit = () => {
     navigation.navigate("MainMenu");
   };
@@ -40,10 +39,55 @@ export const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
   const handleJoinGame = () => {
     console.log("Rejoindre une partie");
   };
+
+  useEffect(() => {
+    ws.onopen = () => {
+      console.log("WebSocket ouvert");
+
+      // premier joueur
+      const player1Data = {
+        type: "connect",
+        data: {
+          gameId: gameId,
+          playerId: "1",
+          playerName: "WSM",
+        },
+      };
+      ws.send(JSON.stringify(player1Data));
+
+      // deuxième joueur
+      const player2Data = {
+        type: "connect",
+        data: {
+          gameId: gameId,
+          playerId: "2",
+          playerName: "Juliano",
+        },
+      };
+      ws.send(JSON.stringify(player2Data));
+    };
+
+    ws.onclose = () => {
+      console.log("WebSocket fermé");
+    };
+
+    ws.onmessage = (event) => {
+      console.log("Message reçu :", event.data);
+      if (event.data === "ping") {
+        ws.send("pong");
+        console.log("pong");
+      }
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
   return (
     <SafeAreaView style={styles.containermain}>
       <View style={styles.titleContainer}>
-        <CustomText style={styles.title}>ID PARTIE : 120403</CustomText>
+        <CustomText style={styles.title}>ID PARTIE : {gameId}</CustomText>
         <CustomButton title="Quitter" onPress={handleQuit} />
       </View>
       <View style={styles.contentWithoutTitle}>

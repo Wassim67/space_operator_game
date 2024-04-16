@@ -44,14 +44,72 @@ const styles = StyleSheet.create({
   },
   boutique: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column-reverse',
     justifyContent: 'space-between',
 
   },
   container: {
     display: 'flex',
     flexDirection: 'row',
-  }
+  },
+  
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  input: {
+    width: "100%",
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 15,
+  },
+  // buttonContainer: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-around",
+  //   width: "100%",
+  // },
+  // button: {
+  //   borderRadius: 5,
+  //   padding: 10,
+  //   width: 100,
+  //   alignItems: "center",
+  // },
+  submitButton: {
+    backgroundColor: "#007bff",
+  },
+  cancelButton: {
+    backgroundColor: "#dc3545",
+  },
+  // buttonText: {
+  //   color: "white",
+  //   fontWeight: "bold",
+  // },
+
 });
 
 export default styles;

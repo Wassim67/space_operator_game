@@ -6,4 +6,7 @@ export type RootStackParamList = {
   Help: undefined;
   Information: undefined;
   ChangeName: undefined;
+  Operator: undefined;
+  ChangeGameIos: undefined;
+  Shop: undefined;
 };

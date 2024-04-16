@@ -12,13 +12,15 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "../../i18n";
 
 //import des pages
-import  MainMenu  from "../pages/Main_Menu/MainMenu.page";
+import MainMenu from "../pages/Main_Menu/MainMenu.page";
 import SplashScreen from "../pages/Splash_Screen/SplashScreen.page";
 import Settings from "../pages/Settings/Settings.page";
 import CreateGame from "../pages/Create_Game/CreateGame.page";
 import Help from "../pages/Help/Help.page";
 import Information from "../pages/Information/Information.page";
-import { ChangeName } from "../pages/Change_Name/ChangeName";
+import ChangeName from "../pages/Change_Name/ChangeName";
+import Operator from "../pages/Operator/Operator.page";
+import Shop from "../pages/Shop/Shop.page";
 
 const Stack = createStackNavigator();
 
@@ -67,6 +69,16 @@ const AppNavigator = () => {
           <Stack.Screen
             name="Information"
             component={Information}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Operator"
+            component={Operator}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Shop"
+            component={Shop}
             options={{ headerShown: false }}
           />
           {/* <Stack.Screen
