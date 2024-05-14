@@ -15,5 +15,28 @@
     "exit": "Exit",
     "rule_game_title": "Rules of the game",
     "rule_game": "Space Operators is a cooperative multiplayer game in which players take it in turns to take on the role of instructor or operator aboard a spaceship that is subject to constant breakdowns. The instructors must quickly and clearly communicate the operations to be performed to the operators, who must carry them out correctly and on time. Over time, the turns become shorter, making communication and task completion more difficult. Failure to complete tasks or failures to communicate lead to a reduction in the integrity of the vessel and increase the risk of explosion."
+  },
+  "information": {
+    "exit": "Exit",
+    "title_information": "History of Space Operators",
+    "description_information": "Once upon a time, in a future where mankind had colonized space, President J. Etenach launched a daring mission: to send astronaut W. Jallabi and his crew to Mars. But en route, their ship was violently struck by a meteorite, leaving them distraught. Their goal: to repair the ship and return to Earth.",
+    "Thank_You": "Thank you",
+    "credits": "See credits"
+  },
+  "Thank_You":{
+    "exit": "Exit",
+    "Main_developers": "Main developers: ",
+    "Design_and_development": "Design and development : ",
+    "Creative_direction" : "Creative direction :",
+    "Programming": "Programming",
+    "Script_and_narration" : "Script and narration :",
+    "Voice": "Voice :",
+    "Testers/QA": "Testers/QA :",
+    "Third-party_licenses_and_resources": "Third-party licenses and resources :",
+    "Graphics_and_artistic_design": "Graphics and artistic design :",
+    "Music_and_sound_effects": "Music and sound effects :"
+  },
+  "Credits":{
+    "exit": "Exit"
   }
 } 

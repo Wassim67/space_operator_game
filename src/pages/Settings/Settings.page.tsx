@@ -6,74 +6,83 @@ import CustomButton from "../../components/CustomButton";
 import { NavigationProp } from "@react-navigation/native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import styles from "./styles";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RootStackParamList } from "../../RootStackParamList";
+import {
+  stopAmbientSound,
+  playAmbientSound,
+} from "../../core/AmbientSound/AmbientSound"; // Importez les fonctions pour jouer et arrêter le son d'ambiance
 
 interface SettingsProps {
-  // navigation: NavigationProp<any>;
   navigation: NavigationProp<RootStackParamList, "Settings">;
 }
 
 const Settings: React.FC<SettingsProps> = ({ navigation }) => {
-  const { t, i18n } = useTranslation(); // Utiliser la fonction de traduction
+  const { t, i18n } = useTranslation();
 
-  const [musicOn, setMusicOn] = useState(true);
+  const [musicOn, setMusicOn] = useState(false);
   const [volumeOn, setVolumeOn] = useState(true);
   const [lang, setLang] = useState(() => {
-    return i18n.language || 'fr'; 
+    return i18n.language || "fr";
   });
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const storedVolume = await AsyncStorage.getItem('volumeOn');
+        const storedVolume = await AsyncStorage.getItem("volumeOn");
         if (storedVolume !== null) {
           setVolumeOn(JSON.parse(storedVolume));
         }
 
-        const storedMusic = await AsyncStorage.getItem('musicOn');
+        const storedMusic = await AsyncStorage.getItem("musicOn");
         if (storedMusic !== null) {
           setMusicOn(JSON.parse(storedMusic));
         }
       } catch (error) {
-        console.error('Error retrieving data from AsyncStorage:', error);
+        console.error("Error retrieving data from AsyncStorage:", error);
       }
-    }
+    };
     fetchData();
 
-    return () => {
-    };
-  }, []); 
-
+    return () => {};
+  }, []);
 
   const toggleMusic = () => {
     const newMusicState = !musicOn;
     setMusicOn(newMusicState);
-    AsyncStorage.setItem('musicOn', JSON.stringify(newMusicState)); // Store the new music state
+    AsyncStorage.setItem("musicOn", JSON.stringify(newMusicState)); // Store the new music state
     console.log("ChangeMusic");
+
+    console.log(newMusicState);
+    if (newMusicState) {
+      playAmbientSound(); // Si la musique est activée, démarrez le son d'ambiance
+    } else {
+      stopAmbientSound(); // Si la musique est désactivée, arrêtez le son d'ambiance
+    }
   };
 
   const toggleVolume = () => {
     const newVolumeState = !volumeOn;
     setVolumeOn(newVolumeState);
-    AsyncStorage.setItem('volumeOn', JSON.stringify(newVolumeState)); // Store the new volume state
-    console.log("ChangeVolume");
+    console.log(volumeOn);
+    AsyncStorage.setItem("volumeOn", JSON.stringify(newVolumeState));
   };
-  
+
   const toggleLang = () => {
     let newLang;
     switch (lang) {
-      case 'en':
-        newLang = 'fr';
+      case "en":
+        newLang = "fr";
         break;
-      case 'fr':
-        newLang = 'en';
+      case "fr":
+        newLang = "en";
         break;
       default:
-        newLang = 'fr'; // Default to French if lang is neither 'en' nor 'fr'
+        newLang = "fr";
     }
     setLang(newLang);
     i18n.changeLanguage(newLang);
-    console.log('ChangeLang');
+    console.log("ChangeLang");
   };
 
   const handleExit = () => {
@@ -107,24 +116,28 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
           <Card containerStyle={[styles.card, styles.largeCard]}>
             {volumeOn ? (
               <MaterialCommunityIcons
-                name="volume-source"
+                name="volume-variant-off"
                 size={100}
                 color="black"
               />
             ) : (
               <MaterialCommunityIcons
-                name="volume-variant-off"
+                name="volume-source"
                 size={100}
                 color="black"
               />
             )}
           </Card>
         </TouchableOpacity>
-        
+
         <TouchableOpacity onPress={toggleLang}>
           <Card containerStyle={[styles.card, styles.largeCard]}>
             <Image
-              source={lang === "fr" ? require("./assets/france.png") : require("./assets/royaume-uni.png")}
+              source={
+                lang === "fr"
+                  ? require("./assets/france.png")
+                  : require("./assets/royaume-uni.png")
+              }
               style={styles.image}
             />
           </Card>
@@ -135,4 +148,3 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
 };
 
 export default Settings;
-

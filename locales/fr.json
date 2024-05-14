@@ -15,5 +15,28 @@
     "exit": "Quitter",
     "rule_game_title": "Règle du jeu",
     "rule_game": "Space Operators, est un jeu multijoueur en coopération, les joueurs assument tour à tour le rôle d'instructeur ou d'opérateur à bord d'un vaisseau spatial sujet à des pannes constantes. Les instructeurs doivent communiquer rapidement et clairement les opérations à effectuer aux opérateurs, qui doivent les exécuter correctement et dans les délais impartis. Avec le temps, les tours deviennent plus courts, rendant la communication et l'exécution des tâches plus difficiles. L'échec dans l'accomplissement des tâches ou dans la communication entraîne une diminution de l'intégrité du vaisseau et augmente le risque d'explosion."
+  },
+  "information": {
+    "exit": "Quitter",
+    "title_information": "Histoire de Space Operators",
+    "description_information": "Il était une fois dans un futur où l'humanité avait colonisé l'espace, le président J. Etenach lança une mission audacieuse : envoyer l'astronaute W. Jallabi et son équipage sur Mars. Mais en cours de route, leur vaisseau fut violemment frappé par une météorite, les laissant désemparés. Leur objectif : réparer le vaisseau et rentrer sur Terre.",
+    "Thank_You": "Remerciement",
+    "credits": "Voir les crédits"
+  },
+  "Thank_You":{
+    "exit": "Quitter",
+    "Main_developers": "Développeur principaux: ",
+    "Design_and_development": "Conception et développement : ",
+    "Creative_direction" : "Direction créative :",
+    "Programming": "Programmation",
+    "Script_and_narration" : "Scénario et narration :",
+    "Voice": "Voix :",
+    "Testers/QA": "Testeurs/QA :",
+    "Third-party_licenses_and_resources": "Licences et ressources tierces :",
+    "Graphics_and_artistic_design": "Graphisme et conception artistique :",
+    "Music_and_sound_effects": "Musique et effets sonores :"
+  },
+  "Credits":{
+    "exit": "Quitter"
   }
 }

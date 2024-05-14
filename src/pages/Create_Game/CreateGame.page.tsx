@@ -1,63 +1,98 @@
-import React from "react";
-import { SafeAreaView, FlatList, View } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import { SafeAreaView, FlatList, View, Alert } from "react-native";
 import CustomText from "../../components/CustomText";
-import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
-import Item from "../../components/Item";
-import styles from "./styles";
 import CustomButton from "../../components/CustomButton";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../RootStackParamList";
+import Item from "../../components/Item";
+import styles from "./styles";
+import axios from "axios";
+import useWebSocket from "../../websocket";
 
 interface UserData {
   id: string;
   username: string;
-  statut: string;
+  statut: boolean;
 }
-
-const DATA: UserData[] = [
-  { id: "1", username: "WSM", statut: "Prêt" },
-  { id: "2", username: "Captain Juliano", statut: "En attente" },
-  { id: "3", username: "kjj", statut: "En attente" },
-  { id: "4", username: "kjj", statut: "En attente" },
-  { id: "5", username: "kjj", statut: "En attente" },
-  { id: "6", username: "kjj", statut: "En attente" },
-  { id: "7", username: "kjj", statut: "En attente" },
-  { id: "8", username: "kjj", statut: "En attente" },
-];
 
 interface MainMenuProps {
   navigation: StackNavigationProp<RootStackParamList, "MainMenu">;
 }
 
-export const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
-  const renderItem = ({ item }: { item: UserData }) => (
-    <Item username={item.username} statut={item.statut} />
+const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
+  const [players, setPlayers] = useState<UserData[]>([]);
+  const errorHandledRef = useRef(false);
+
+  const route = useRoute<RouteProp<RootStackParamList, "CreateGame">>();
+  const gameId = route.params?.gameId;
+  const gamerName = route.params?.gamerName;
+  const gamerId = route.params?.gamerId;
+
+  // Define ws outside the useEffect hook
+  const ws = useWebSocket(
+    gameId,
+    gamerId,
+    gamerName,
+    navigation,
+    setPlayers,
+    errorHandledRef
   );
+
+  useEffect(() => {
+    return () => {
+      // Close the WebSocket connection when the component unmounts
+      ws.current?.close();
+    };
+  }, []);
+
+  const handleChangeStatut = () => {
+    console.log(gamerId);
+    if (players.length === 1) {
+      Alert.alert("Impossible", "Vous êtes seul dans la partie.");
+      return;
+    }
+    axios
+      .post(
+        `https://space-operators-bb2423167918.herokuapp.com/ready/${gamerId}`
+      )
+      .catch((error) => {
+        console.error("Erreur lors du changement de statut :", error);
+        Alert.alert("Erreur", "Impossible de changer le statut.");
+      });
+  };
+
+  const renderItem = ({ item }: { item: UserData }) => {
+    console.log(item.statut, "statut");
+    return (
+      <Item username={gamerName} statut={item.statut ? "Prêt" : "Occupé"} />
+    );
+  };
+
   const handleQuit = () => {
     navigation.navigate("MainMenu");
   };
 
-  const handleJoinGame = () => {
-    console.log("Rejoindre une partie");
-  };
   return (
     <SafeAreaView style={styles.containermain}>
       <View style={styles.titleContainer}>
-        <CustomText style={styles.title}>ID PARTIE : 120403</CustomText>
+        <CustomText style={styles.title}>ID PARTIE : {gameId}</CustomText>
         <CustomButton title="Quitter" onPress={handleQuit} />
       </View>
       <View style={styles.contentWithoutTitle}>
         <View style={styles.actions}>
           <CustomButton
-            title="Demarrer la partie"
-            onPress={handleJoinGame}
+            title="Démarrer la partie"
+            onPress={handleChangeStatut}
           ></CustomButton>
         </View>
         <View style={styles.usersContainer}>
           <FlatList
-            data={DATA}
+            data={players}
             renderItem={renderItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) =>
+              item.id ? item.id.toString() : Math.random().toString()
+            }
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.usersList}
           />

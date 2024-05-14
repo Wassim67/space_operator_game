@@ -12,14 +12,17 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "../../i18n";
 
 //import des pages
-import  MainMenu  from "../pages/Main_Menu/MainMenu.page";
+import MainMenu from "../pages/Main_Menu/MainMenu.page";
 import SplashScreen from "../pages/Splash_Screen/SplashScreen.page";
 import Settings from "../pages/Settings/Settings.page";
 import CreateGame from "../pages/Create_Game/CreateGame.page";
 import Help from "../pages/Help/Help.page";
 import Information from "../pages/Information/Information.page";
 import { ChangeName } from "../pages/Change_Name/ChangeName";
-
+// import Credits from "../pages/Credits/Credits.page";
+import Credits from "../pages/Credits/Credits.page";
+import Thank_You from "../pages/Thank_You/Thank_You.page";
+import JoinGamePage from "../pages/Join_Game/JoinGame_test.page";
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
@@ -67,6 +70,21 @@ const AppNavigator = () => {
           <Stack.Screen
             name="Information"
             component={Information}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Thank_You"
+            component={Thank_You}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Credits"
+            component={Credits}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="JoinGame"
+            component={JoinGamePage}
             options={{ headerShown: false }}
           />
           {/* <Stack.Screen

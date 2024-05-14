@@ -20,20 +20,32 @@
 
 // export default CustomView;
 import React from "react";
-import { View, ViewStyle, StyleSheet } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 interface CustomViewProps {
   children?: React.ReactNode;
-  backgroundColor?: string; // Couleur d'arrière-plan
-  borderRadius?: number; // Rayon de bordure
-  style?: ViewStyle; // Autres styles personnalisés
-  flexDirection?: "row" | "column" | "row-reverse" | "column-reverse"; // Prop pour flex-direction
-  flexWrap?: "nowrap" | "wrap"; // Prop pour flex-wrap
-  alignContent?: "center" | "flex-start" | "flex-end" | "space-around" | "space-between"; // Prop pour align-content
-  justifyContent?: "center" | "flex-start" | "flex-end" | "space-around" | "space-between"; // Prop pour justify-content
-  alignItems?: "center" | "flex-start" | "flex-end"; // Prop pour align-items
-  padding?: number; // Prop pour le padding
-  gap?: number; // Prop pour l'espacement entre les enfants (gap)
+  backgroundColor?: string;
+  borderRadius?: number;
+  style?: ViewStyle;
+  flexDirection?: "row" | "column" | "row-reverse" | "column-reverse";
+  flexWrap?: "nowrap" | "wrap";
+  alignContent?:
+    | "center"
+    | "flex-start"
+    | "flex-end"
+    | "space-around"
+    | "space-between";
+  justifyContent?:
+    | "center"
+    | "flex-start"
+    | "flex-end"
+    | "space-around"
+    | "space-between";
+  alignItems?: "center" | "flex-start" | "flex-end";
+  padding?: number;
+  gap?: number;
+  width?: number; // Ajout de la propriété width
+  height?: number; // Ajout de la propriété height
 }
 
 const CustomView: React.FC<CustomViewProps> = ({
@@ -47,7 +59,9 @@ const CustomView: React.FC<CustomViewProps> = ({
   alignItems,
   padding,
   gap,
-  children
+  width, // Ajout de la prop width
+  height, // Ajout de la prop height
+  children,
 }) => {
   const viewStyle: ViewStyle = {
     backgroundColor,
@@ -58,17 +72,19 @@ const CustomView: React.FC<CustomViewProps> = ({
     justifyContent,
     alignItems,
     padding,
+    width, // Ajout de la propriété width
+    height, // Ajout de la propriété height
     ...style,
-    display: "flex" // Toujours en display flex
+    display: "flex",
   };
 
   const itemStyle: ViewStyle = {
-    margin: gap // Appliquer un margin pour l'espacement entre les enfants
+    margin: gap,
   };
 
   return (
     <View style={viewStyle}>
-      {React.Children.map(children, child => (
+      {React.Children.map(children, (child) => (
         <View style={itemStyle}>{child}</View>
       ))}
     </View>
