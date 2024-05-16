@@ -7,17 +7,15 @@ const styles = StyleSheet.create({
     containermain: {
         flex: 1,
         backgroundColor: "#211D1D",
+        padding: 15,
+        // flexDirection: "row"
     },
-      input: {
-    width: "80%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginTop: 20,
-    paddingHorizontal: 10,
-    marginBottom: 20,
-    color: "white", // Text color
-  },
+    imageRocketGif: {
+        width: 180, // Définir la largeur souhaitée
+        height: 180, // Définir la hauteur souhaitée
+        // transform: [{ rotate: "-45deg" }]
+        // transform: [{ rotate: "-90" }]
+      },
 });
 
 export default styles;

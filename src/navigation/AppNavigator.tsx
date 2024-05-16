@@ -18,9 +18,16 @@ import Settings from "../pages/Settings/Settings.page";
 import CreateGame from "../pages/Create_Game/CreateGame.page";
 import Help from "../pages/Help/Help.page";
 import Information from "../pages/Information/Information.page";
-import ChangeName from "../pages/Change_Name/ChangeName";
-import Operator from "../pages/Operator/Operator.page";
-import Shop from "../pages/Shop/Shop.page";
+import { ChangeName } from "../pages/Change_Name/ChangeName";
+// import Credits from "../pages/Credits/Credits.page";
+import Credits from "../pages/Credits/Credits.page";
+import Thank_You from "../pages/Thank_You/Thank_You.page";
+import JoinGamePage from "../pages/Join_Game/JoinGame_test.page";
+import OperatorPage from "../pages/Operator/Operator.page";
+import IntructorPage from "../pages/Intructor/Intructor.page";
+import WaitingPage from "../pages/Waiting/Waiting.page";
+
+
 
 const Stack = createStackNavigator();
 
@@ -72,13 +79,33 @@ const AppNavigator = () => {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="Operator"
-            component={Operator}
+            name="Thank_You"
+            component={Thank_You}
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="Shop"
-            component={Shop}
+            name="Credits"
+            component={Credits}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="JoinGame"
+            component={JoinGamePage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Operator"
+            component={OperatorPage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Intructor"
+            component={IntructorPage}
+            options={{ headerShown: false }}
+          />
+                    <Stack.Screen
+            name="Waiting"
+            component={WaitingPage}
             options={{ headerShown: false }}
           />
           {/* <Stack.Screen

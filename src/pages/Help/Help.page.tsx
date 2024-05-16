@@ -12,7 +12,6 @@ import { RootStackParamList } from "../../RootStackParamList";
 interface HelpProps {
   // navigation: StackNavigationProp<any>;
   navigation: NavigationProp<RootStackParamList, "Help">;
-
 }
 
 export const Help: React.FC<HelpProps> = ({ navigation }) => {
@@ -23,7 +22,6 @@ export const Help: React.FC<HelpProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.containermain}>
       <CustomView
-        backgroundColor="#000000"
         borderRadius={10}
         flexDirection="row"
         flexWrap="wrap"

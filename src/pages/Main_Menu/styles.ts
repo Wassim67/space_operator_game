@@ -3,7 +3,8 @@ import { StyleSheet, Dimensions } from "react-native";
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
+
   containermain: {
     display: "flex",
     backgroundColor: "#211D1D",
@@ -30,86 +31,73 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     top: windowHeight * 0.1,
-
   },
   playerContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: windowHeight * 0.2
+    marginTop: windowHeight * 0.1
   },
   image: {
-    width: 300, // Définir la largeur souhaitée
-    height: 300, // Définir la hauteur souhaitée
+    width: 300,
+    height: 300,
   },
   boutique: {
     display: 'flex',
-    flexDirection: 'column-reverse',
+    flexDirection: 'column',
     justifyContent: 'space-between',
-
   },
   container: {
     display: 'flex',
     flexDirection: 'row',
-  },
-  
-  centeredView: {
-    flex: 1,
+  }
+});
+
+const styles = StyleSheet.create({
+
+  ...baseStyles,
+  // Styles spécifiques pour la modal
+  modalContainer: {
+    ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+  modalOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
+  modalContent: {
+    backgroundColor: "#FFFFFF",
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+  },
+  modalTitle: {
     fontSize: 18,
     fontWeight: "bold",
+    marginBottom: 10,
   },
   input: {
-    width: "100%",
-    borderColor: "#ccc",
     borderWidth: 1,
+    borderColor: "#CCCCCC",
     borderRadius: 5,
     padding: 10,
-    marginBottom: 15,
+    marginBottom: 10,
   },
-  // buttonContainer: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-around",
-  //   width: "100%",
-  // },
-  // button: {
-  //   borderRadius: 5,
-  //   padding: 10,
-  //   width: 100,
-  //   alignItems: "center",
-  // },
-  submitButton: {
-    backgroundColor: "#007bff",
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
-  cancelButton: {
-    backgroundColor: "#dc3545",
+  ...baseStyles,
+  buttonContainer: {
+    top: windowHeight * 0.02,
   },
-  // buttonText: {
-  //   color: "white",
-  //   fontWeight: "bold",
-  // },
-
+  playerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: windowHeight * 0.05,
+  },
 });
+
 
 export default styles;

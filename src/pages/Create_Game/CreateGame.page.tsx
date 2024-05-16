@@ -1,88 +1,109 @@
-import React, { useEffect } from "react";
-import { SafeAreaView, FlatList, View } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import { SafeAreaView, FlatList, View, Alert } from "react-native";
 import CustomText from "../../components/CustomText";
 import CustomButton from "../../components/CustomButton";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RouteProp } from "@react-navigation/native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../RootStackParamList";
 import Item from "../../components/Item";
 import styles from "./styles";
+import axios from "axios";
+import useWebSocket from "../../websocket";
 
 interface UserData {
   id: string;
-  username: string;
-  statut: string;
+  name: string;
+  status: boolean;
 }
-
-const DATA: UserData[] = [
-  { id: "1", username: "WSM", statut: "Prêt" },
-  { id: "2", username: "Captain Juliano", statut: "En attente" },
-];
 
 interface MainMenuProps {
   navigation: StackNavigationProp<RootStackParamList, "MainMenu">;
-  // route: RouteProp<RootStackParamList, "CreateGame">;
 }
 
-export const CreateGame: React.FC<MainMenuProps> = ({ navigation}) => {
-  const ws = new WebSocket("wss://space-operators-bb2423167918.herokuapp.com");
+const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
+  const [players, setPlayers] = useState<UserData[]>([]);
+  const [role, setRole] = useState<string>("");
+  const errorHandledRef = useRef(false);
 
-  const gameId = 85;
-  const renderItem = ({ item }: { item: UserData }) => (
-    <Item username={item.username} statut={item.statut} />
+  const route = useRoute<RouteProp<RootStackParamList, "CreateGame">>();
+  const gameId = route.params?.gameId;
+  const gamerName = route.params?.gamerName;
+  const gamerId = route.params?.gamerId;
+
+  // Define ws outside the useEffect hook
+  const ws = useWebSocket(
+    gameId,
+    gamerId,
+    gamerName,
+    navigation,
+    setPlayers,
+    setRole,
+    errorHandledRef
   );
+
+  useEffect(() => {
+    return () => {
+      // Close the WebSocket connection when the component unmounts
+      ws.current?.close();
+    };
+  }, []);
+
+  const handleChangeStatut = () => {
+    console.log(gamerId);
+    if (players.length === 1) {
+      Alert.alert("Impossible", "Vous êtes seul dans la partie.");
+      return;
+    }
+    axios
+      .post(
+        `https://space-operators-bb2423167918.herokuapp.com/ready/${gamerId}`
+      )
+      .catch((error) => {
+        console.error("Erreur lors du changement de statut :", error);
+        Alert.alert("Erreur", "Impossible de changer le statut.");
+      });
+  };
+
+  const startGame = () => {
+    if(players.length < 2 || !players.every((player) => player.status)){
+      Alert.alert("Erreur", "Les utilisateurs ne sont pas prêts");
+    }
+    else{
+      axios
+      .post(`https://space-operators-bb2423167918.herokuapp.com/create-game`)
+      .then((response) => {
+        console.log("Réponse de la création de la partie :", response.data);
+        sendStartRequest(gameId);
+        navigation.navigate("Waiting")
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la création de la partie :", error);
+        Alert.alert("Erreur", "Impossible de créer une partie.");
+      });
+    }
+  };
+
+  const sendStartRequest = (gameId: string) => {
+    // Envoyer une demande de démarrage de partie au serveur via WebSocket
+    const startRequest = {
+        type: "start",
+        data: {
+            gameId: gameId
+        }
+    };
+    ws.current?.send(JSON.stringify(startRequest));
+  };
+
+  const renderItem = ({ item }: { item: UserData }) => {
+    console.log(item.status, "statut");
+    return (
+      <Item username={item.name} statut={item.status ? "Prêt" : "Occupé"} />
+    );
+  };
 
   const handleQuit = () => {
     navigation.navigate("MainMenu");
   };
-
-  const handleJoinGame = () => {
-    console.log("Rejoindre une partie");
-  };
-
-  useEffect(() => {
-    ws.onopen = () => {
-      console.log("WebSocket ouvert");
-
-      // premier joueur
-      const player1Data = {
-        type: "connect",
-        data: {
-          gameId: gameId,
-          playerId: "1",
-          playerName: "WSM",
-        },
-      };
-      ws.send(JSON.stringify(player1Data));
-
-      // deuxième joueur
-      const player2Data = {
-        type: "connect",
-        data: {
-          gameId: gameId,
-          playerId: "2",
-          playerName: "Juliano",
-        },
-      };
-      ws.send(JSON.stringify(player2Data));
-    };
-
-    ws.onclose = () => {
-      console.log("WebSocket fermé");
-    };
-
-    ws.onmessage = (event) => {
-      console.log("Message reçu :", event.data);
-      if (event.data === "ping") {
-        ws.send("pong");
-        console.log("pong");
-      }
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
 
   return (
     <SafeAreaView style={styles.containermain}>
@@ -93,15 +114,21 @@ export const CreateGame: React.FC<MainMenuProps> = ({ navigation}) => {
       <View style={styles.contentWithoutTitle}>
         <View style={styles.actions}>
           <CustomButton
-            title="Demarrer la partie"
-            onPress={handleJoinGame}
+            title="pret"
+            onPress={handleChangeStatut}
+          ></CustomButton>
+          <CustomButton
+            title="Démarrer la partie"
+            onPress={startGame}
           ></CustomButton>
         </View>
         <View style={styles.usersContainer}>
           <FlatList
-            data={DATA}
+            data={players}
             renderItem={renderItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) =>
+              item.id ? item.id.toString() : Math.random().toString()
+            }
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.usersList}
           />

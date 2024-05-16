@@ -1,436 +1,99 @@
-import React, { useRef, useState } from "react";
+import React from "react";
+import { SafeAreaView, Image } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import CustomText2 from "../../components/CustomText2";
-import styles from "./styles";
+// import styles from "../Thank_You/styles";
 import { t } from "i18next";
 import CustomButton from "../../components/CustomButton";
 import CustomView from "../../components/CustomView";
-import CustomProgressBar from "../../components/CustomProgressBar";
-import CustomTimer from "../../components/CustomTimer"; // Import du composant CustomTimer
 import { NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../RootStackParamList";
-import { SafeAreaView, Image, TouchableOpacity } from "react-native";
-import { AntDesign, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
+import CustomProgressBar from "../../components/CustomProgressBar";
+import CustomTimer from "../../components/CustomTimer";
+import styles from "./style";
+import CustomCommandeGame from "../../components/CustomCommandeGame";
+
 
 interface Operator {
   navigation: NavigationProp<RootStackParamList, "Operator">;
 }
 
+const lose = false;
+
 export const Operator: React.FC<Operator> = ({ navigation }) => {
   const handleExit = () => {
     navigation.navigate("MainMenu");
   };
-
-  const userCode = "XX-99";
-
-  const rocketRef = useRef<Image>(null);
-
-  const rotateRocket = () => {
-    const randomDegree = Math.floor(Math.random() * 90); // Générer un degré aléatoire entre 0 et 90
-    if (rocketRef.current) {
-      rocketRef.current.setNativeProps({
-        style: {
-          transform: [{ rotate: `${randomDegree}deg` }],
-        },
-      });
-    }
-  };
-
-  // État pour suivre si le bouton est activé ou désactivé
-  const [buttonThreeRed, setbuttonThreeRed] = useState(true);
-  const [buttonOneRed, setbuttonOneRed] = useState(true);
-
-  const [buttonOnePurple, setbuttonOnePurple] = useState(true);
-  const [buttonTwoPurple, setbuttonTwoPurple] = useState(true);
-
-  const [buttonThreeYellow, setbuttonThreeYellow] = useState(true);
-  const [buttonYellow, setbuttonYellow] = useState(true);
-
-  const [buttonGreen, setbuttonGreen] = useState(true);
-  const [buttonOneGreen, setbuttonOneGreen] = useState(true);
-
-  const [buttonTwoBlue, setbuttonTwoBlue] = useState(true);
-  const [buttonFourBlue, setbuttonFourBlue] = useState(true);
-
-  // Fonction pour changer l'état du bouton et l'image associée
-  const toggleButtonThreeRed = () => {
-    setbuttonThreeRed(!buttonThreeRed);
-    if (buttonThreeRed === true) {
-      console.log("buttonThreeRedOn");
-    } else {
-      console.log("buttonThreeRedOff");
-    }
-  };
-  const toggleButtonOneRed = () => {
-    setbuttonOneRed(!buttonOneRed);
-    if (buttonOneRed === true) {
-      console.log("buttonOneRedOn");
-    } else {
-      console.log("buttonOneRedOff");
-    }
-  };
-  const toggleButtonOnePurple = () => {
-    setbuttonOnePurple(!buttonOnePurple);
-    if (buttonOnePurple === true) {
-      console.log("buttonOnePrupleOn");
-    } else {
-      console.log("buttonOnePurpleOff");
-    }
-  };
-  const toggleButtonTwoPurple = () => {
-    setbuttonTwoPurple(!buttonTwoPurple);
-    if (buttonTwoPurple === true) {
-      console.log("buttonTwoPrupleOn");
-    } else {
-      console.log("buttonTwoPrupleOff");
-    }
-  };
-  const toggleButtonThreeYellow = () => {
-    setbuttonThreeYellow(!buttonThreeYellow);
-    if (buttonThreeYellow === true) {
-      console.log("buttonThreeYellowOn");
-    } else {
-      console.log("buttonThreeYellowOff");
-    }
-  };
-  const toggleButtonYellow = () => {
-    setbuttonYellow(!buttonYellow);
-    if (buttonYellow === true) {
-      console.log("buttonYellowOff");
-    } else {
-      console.log("buttonYellowOff");
-    }
-  };
-  const toggleButtonOneGreen = () => {
-    setbuttonOneGreen(!buttonOneGreen);
-    if (buttonOneGreen === true) {
-      console.log("buttonGreenOn");
-    } else {
-      console.log("buttonGreenOff");
-    }
-  };
-  const toggleButtonGreen = () => {
-    setbuttonGreen(!buttonGreen);
-    if (buttonGreen === true) {
-      console.log("buttonOneGreenOn");
-    } else {
-      console.log("buttonOneGreenOn");
-    }
-  };
-  const toggleButtonTwoBlue = () => {
-    setbuttonTwoBlue(!buttonTwoBlue);
-    if (buttonTwoBlue === true) {
-      console.log("buttonTwoblueOn");
-    } else {
-      console.log("buttonTwoblueOff");
-    }
-  };
-  const toggleButtonFourBlue = () => {
-    setbuttonFourBlue(!buttonFourBlue);
-    if (buttonFourBlue === true) {
-      console.log("buttonFourblueOn");
-    } else {
-      console.log("buttonFourblueOff");
-    }
-  };
+  if (lose) {
+    return (
+      <SafeAreaView style={styles.containermain}>
+        <CustomView style={{ alignItems: "center", marginTop: 20 }}>
+          <CustomText2 text="You lose" color="red" textSize="large" />
+        </CustomView>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.containermain}>
-      <CustomView gap={15} justifyContent="space-between" flexDirection="row">
-        <CustomView>
-          <CustomText2 textSize="medium" color="white" text="Tour : 1" />
-          <CustomTimer initialTime={20} />
-        </CustomView>
-
-        <CustomText2 textSize="large" color="white" text="Rôle : Operators" />
-        <CustomButton
+      <CustomText2  text="tour : 1" color="white" textSize="little"/>
+<CustomView flexDirection="row" justifyContent="space-between" alignItems="center">
+      <CustomTimer initialTime={15} />
+      <CustomText2 bold text="Votre role : Instructeur" color="white" textSize="medium"/>
+          <CustomButton
           size="small"
           textColor="white"
           color="red"
           title={t("settings.exit")}
           onPress={handleExit}
         />
-      </CustomView>
+</CustomView>
 
-      <CustomView gap={15} flexDirection="row" minHeight={5000}>
-        {/* etat de la fusée */}
-        <CustomView flexDirection="column">
-          <CustomText2
-            textSize="medium"
-            color="white"
-            text="Etat de la fusée"
-          />
-          <CustomView flexDirection="row">
-            <CustomProgressBar orientation="vertical" progress={0.45} />
-            <TouchableOpacity onPress={rotateRocket}>
-              <Image
-                ref={rocketRef}
-                source={require("./assets/rocket_1f680.gif")}
-                style={styles.imageRocketGif}
-              />
-            </TouchableOpacity>
-          </CustomView>
-        </CustomView>
 
-        {/* tableau de bord */}
-        <CustomView
-          maxWidth={600}
-          minWidth={600}
-          maxHeight={250}
-          minHeight={250}
-          borderRadius={4}
-          backgroundColor="#BBB3A6"
-        >
-          <CustomView>
-            <CustomText2
-              textSize="medium"
-              color="white"
-              text="Tableau de bord"
+      <CustomView gap={15} flexDirection="row">
+        <CustomProgressBar orientation="vertical" progress={0.45}/>
+      <Image
+              source={require("./assets/rocket_1f680.gif")}
+              style={styles.imageRocketGif}
             />
-            <CustomText2 textSize="medium" color="white" text={userCode} />
-          </CustomView>
-          <CustomView gap={2} padding={2} maxHeight={230} flexWrap="wrap">
-            <TouchableOpacity onPress={toggleButtonThreeRed}>
-              <Image
-                source={
-                  buttonThreeRed
-                    ? require("./assets/buttonOff/togglebutton3red.png")
-                    : require("./assets/buttonOn/togglebutton3redOn.png")
-                }
-                style={styles.toggleButton}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={toggleButtonOnePurple}>
-              <Image
-                source={
-                  buttonOnePurple
-                    ? require("./assets/buttonOff/togglebutton1purple.png")
-                    : require("./assets/buttonOn/togglebutton1purpleOn.png")
-                }
-                style={styles.toggleButton}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={toggleButtonThreeYellow}>
-              <Image
-                source={
-                  buttonThreeYellow
-                    ? require("./assets/buttonOff/togglebutton3yellow.png")
-                    : require("./assets/buttonOn/togglebutton3yellowOn.png")
-                }
-                style={styles.toggleButton}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={toggleButtonGreen}>
-              <Image
-                source={
-                  buttonGreen
-                    ? require("./assets/buttonOff/togglebuttongreen.png")
-                    : require("./assets/buttonOn/togglebuttongreenOn.png")
-                }
-                style={styles.toggleButton}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={toggleButtonTwoBlue}>
-              <Image
-                source={
-                  buttonTwoBlue
-                    ? require("./assets/buttonOff/togglebutton2blue.png")
-                    : require("./assets/buttonOn/togglebutton2blueOn.png")
-                }
-                style={styles.toggleButton}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={toggleButtonOneRed}>
-              <Image
-                source={
-                  buttonOneRed
-                    ? require("./assets/buttonOff/togglebutton1red.png")
-                    : require("./assets/buttonOn/togglebutton1redOn.png")
-                }
-                style={styles.toggleButton}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={toggleButtonTwoPurple}>
-              <Image
-                source={
-                  buttonTwoPurple
-                    ? require("./assets/buttonOff/togglebutton2purple.png")
-                    : require("./assets/buttonOn/togglebutton2purpleOn.png")
-                }
-                style={styles.toggleButton}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={toggleButtonYellow}>
-              <Image
-                source={
-                  buttonYellow
-                    ? require("./assets/buttonOff/togglebuttonyellow.png")
-                    : require("./assets/buttonOn/togglebuttonyellowOn.png")
-                }
-                style={styles.toggleButton}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={toggleButtonOneGreen}>
-              <Image
-                source={
-                  buttonOneGreen
-                    ? require("./assets/buttonOff/togglebutton1green.png")
-                    : require("./assets/buttonOn/togglebutton1greenOn.png")
-                }
-                style={styles.toggleButton}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={toggleButtonFourBlue}>
-              <Image
-                source={
-                  buttonFourBlue
-                    ? require("./assets/buttonOff/togglebutton4blue.png")
-                    : require("./assets/buttonOn/togglebutton4blueOn.png")
-                }
-                style={styles.toggleButton}
-              />
-            </TouchableOpacity>
+      <CustomView padding={8} borderRadius={4} backgroundColor="#C1C1C1">
+        <CustomView gap={15} flexDirection="row">
+      <CustomText2 text="XX-99" bold color="#0000FF" textSize="medium"/>
+      <CustomText2 text="Tableau de bord" bold color="black" textSize="medium"/>
+      <CustomView>
+  <CustomCommandeGame
+    elements={[
+      { valueType: "color", value: "#bb2222", type: "button", id: 1 },
+      { valueType: "color", value: "#ff5c5c", type: "button", id: 2 },
+      { valueType: "color", value: "#008000", type: "button", id: 3 }, 
+      { valueType: "color", value: "#0000FF", type: "button", id: 4 }, 
+      { valueType: "color", value: "#FFFF00", type: "button", id: 5 }, 
+      { valueType: "string", value: "Commencer", type: "button", id: 6 },
+      { valueType: "string", value: "Arrêter", type: "button", id: 7 },
+      { valueType: "string", value: "Réinitialiser", type: "button", id: 8 }
+    ]}
+  />
+</CustomView>
 
-            {/* Button controle fusée */}
-            <CustomView gap={2} alignItems="center">
-              {/* radar */}
-              <Image
-                source={require("./assets/radar.gif")}
-                style={styles.imageRadar}
-              />
-              {/* <TouchableOpacity>
-                <AntDesign name="upcircle" size={45} color="black" />
-              </TouchableOpacity>
-              <CustomView gap={2} flexDirection="row">
-                <TouchableOpacity>
-                  <AntDesign name="leftcircle" size={45} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <AntDesign name="downcircle" size={45} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <AntDesign name="rightcircle" size={45} color="black" />
-                </TouchableOpacity>
-              </CustomView> */}
-            </CustomView>
-            <CustomView
-            
-             gap={2}
-              flexWrap="wrap"
-              padding={8}
-              borderRadius={8}
-              borderSize={10}
-              borderColor="#FDF7E5"
-              backgroundColor="#54B572"
-            >
-              <TouchableOpacity>
-                <CustomButton
-                  textColor="white"
-                  size="small"
-                  color="#ABD2B3"
-                  borderRadius={4}
-                  onPress={toggleButtonFourBlue}
-                  title="1"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <CustomButton
-                  textColor="white"
-                  size="small"
-                  color="#ABD2B3"
-                  borderRadius={4}
-                  onPress={toggleButtonFourBlue}
-                  title="2"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <CustomButton
-                  textColor="white"
-                  size="small"
-                  color="#ABD2B3"
-                  borderRadius={4}
-                  onPress={toggleButtonFourBlue}
-                  title="3"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <CustomButton
-                  textColor="white"
-                  size="small"
-                  color="#ABD2B3"
-                  borderRadius={4}
-                  onPress={toggleButtonFourBlue}
-                  title="4"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <CustomButton
-                  textColor="white"
-                  size="small"
-                  color="#ABD2B3"
-                  borderRadius={4}
-                  onPress={toggleButtonFourBlue}
-                  title="5"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <CustomButton
-                  textColor="white"
-                  size="small"
-                  color="#ABD2B3"
-                  borderRadius={4}
-                  onPress={toggleButtonFourBlue}
-                  title="6"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <CustomButton
-                  textColor="white"
-                  size="small"
-                  color="#ABD2B3"
-                  borderRadius={4}
-                  onPress={toggleButtonFourBlue}
-                  title="7"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <CustomButton
-                  textColor="white"
-                  size="small"
-                  color="#ABD2B3"
-                  borderRadius={4}
-                  onPress={toggleButtonFourBlue}
-                  title="8"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <CustomButton
-                  textColor="white"
-                  size="small"
-                  color="#ABD2B3"
-                  borderRadius={4}
-                  onPress={toggleButtonFourBlue}
-                  title="9"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <CustomButton
-                  textColor="white"
-                  size="small"
-                  color="#ABD2B3"
-                  borderRadius={4}
-                  onPress={toggleButtonFourBlue}
-                  title="0"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-              <Entypo  name="fingerprint" size={35} color="black" />
-              </TouchableOpacity>
-            </CustomView>
-          </CustomView>
+<CustomView flexWrap="wrap">
+  <CustomCommandeGame
+    elements={[
+      { valueType: "color", value: "#0000FF", type: "switch", id: 9 },
+      { valueType: "color", value: "#FFFF00", type: "switch", id: 10 },
+      { valueType: "string", value: "Quoicoubeh", type: "switch", id: 11 },
+      { valueType: "string", value: "Apagnan", type: "switch", id: 12 },
+      { valueType: "number", value: "30", type: "switch", id: 13 },
+      { valueType: "number", value: "30", type: "switch", id: 14 },
+    ]}
+  />
+</CustomView>
+
         </CustomView>
+
       </CustomView>
-    </SafeAreaView>
+      </CustomView>
+
+  </SafeAreaView>
   );
 };
 
