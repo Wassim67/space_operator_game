@@ -41,7 +41,7 @@ const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
 
   useEffect(() => {
     return () => {
-      // Close the WebSocket connection when the component unmounts
+    // Close the WebSocket connection when the component unmounts
       ws.current?.close();
     };
   }, []);
@@ -63,9 +63,9 @@ const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
   };
 
   const renderItem = ({ item }: { item: UserData }) => {
-    console.log(item.statut, "statut");
+    console.log(item.status, "statut");
     return (
-      <Item username={gamerName} statut={item.statut ? "Prêt" : "Occupé"} />
+      <Item username={item.username} statut={item.status ? "Prêt" : "Occupé"} />
     );
   };
 
@@ -90,8 +90,8 @@ const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
           <FlatList
             data={players}
             renderItem={renderItem}
-            keyExtractor={(item) =>
-              item.id ? item.id.toString() : Math.random().toString()
+            keyExtractor={(item, index) =>
+              item.id ? item.id.toString() : index.toString()
             }
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.usersList}
