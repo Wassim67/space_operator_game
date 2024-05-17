@@ -12,8 +12,8 @@ import useWebSocket from "../../websocket";
 
 interface UserData {
   id: string;
-  username: string;
-  statut: boolean;
+  name: string;
+  status: boolean;
 }
 
 interface MainMenuProps {
@@ -22,6 +22,7 @@ interface MainMenuProps {
 
 const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
   const [players, setPlayers] = useState<UserData[]>([]);
+  const [role, setRole] = useState<string>("");
   const errorHandledRef = useRef(false);
 
   const route = useRoute<RouteProp<RootStackParamList, "CreateGame">>();
@@ -36,12 +37,13 @@ const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
     gamerName,
     navigation,
     setPlayers,
+    setRole,
     errorHandledRef
   );
 
   useEffect(() => {
     return () => {
-    // Close the WebSocket connection when the component unmounts
+      // Close the WebSocket connection when the component unmounts
       ws.current?.close();
     };
   }, []);
@@ -62,10 +64,40 @@ const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
       });
   };
 
+  const startGame = () => {
+    if(players.length < 2 || !players.every((player) => player.status)){
+      Alert.alert("Erreur", "Les utilisateurs ne sont pas prêts");
+    }
+    else{
+      axios
+      .post(`https://space-operators-bb2423167918.herokuapp.com/create-game`)
+      .then((response) => {
+        console.log("Réponse de la création de la partie :", response.data);
+        sendStartRequest(gameId);
+        navigation.navigate("Waiting")
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la création de la partie :", error);
+        Alert.alert("Erreur", "Impossible de créer une partie.");
+      });
+    }
+  };
+
+  const sendStartRequest = (gameId: string) => {
+    // Envoyer une demande de démarrage de partie au serveur via WebSocket
+    const startRequest = {
+        type: "start",
+        data: {
+            gameId: gameId
+        }
+    };
+    ws.current?.send(JSON.stringify(startRequest));
+  };
+
   const renderItem = ({ item }: { item: UserData }) => {
     console.log(item.status, "statut");
     return (
-      <Item username={item.username} statut={item.status ? "Prêt" : "Occupé"} />
+      <Item username={item.name} statut={item.status ? "Prêt" : "Occupé"} />
     );
   };
 
@@ -82,16 +114,20 @@ const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
       <View style={styles.contentWithoutTitle}>
         <View style={styles.actions}>
           <CustomButton
-            title="Démarrer la partie"
+            title="pret"
             onPress={handleChangeStatut}
+          ></CustomButton>
+          <CustomButton
+            title="Démarrer la partie"
+            onPress={startGame}
           ></CustomButton>
         </View>
         <View style={styles.usersContainer}>
           <FlatList
             data={players}
             renderItem={renderItem}
-            keyExtractor={(item, index) =>
-              item.id ? item.id.toString() : index.toString()
+            keyExtractor={(item) =>
+              item.id ? item.id.toString() : Math.random().toString()
             }
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.usersList}

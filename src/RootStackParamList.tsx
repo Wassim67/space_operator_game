@@ -9,4 +9,10 @@ export type RootStackParamList = {
   Thank_You: undefined;
   Credits: undefined;
   JoinGame: { gamerId: string; gameId: string; gamerName: string };
+  Thank_You: undefined;
+  Credits: undefined;
+  Operator: undefined;
+  Intructor: undefined;
+  Waiting: undefined;
+  JoinGame: { gamerId: string; gameId: string; gamerName: string };
 };

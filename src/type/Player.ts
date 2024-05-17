@@ -1,7 +1,7 @@
 interface Player {
     id: string;
-    username: string;
-    statut: boolean;
+    name: string;
+    status: boolean;
 }
 
 export default Player;

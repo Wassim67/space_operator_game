@@ -20,42 +20,10 @@ const useWebSocket = (
     gamerName: string,
     navigation: any,
     setPlayers: React.Dispatch<React.SetStateAction<Player[]>>,
+    setRole: React.Dispatch<React.SetStateAction<string>>,
     errorHandledRef: React.MutableRefObject<boolean>
 ) => {
     const ws = useRef<WebSocket | null>(null);
-
-    const handleMessage = (event: MessageEvent) => {
-        console.log("Message reçu :", event.data);
-        if (event.data === "ping") {
-            ws.current?.send("pong");
-            console.log("pong");
-        } else {
-            try {
-                const message: Message = JSON.parse(event.data);
-                handleIncomingMessage(message);
-            } catch (error) {
-                console.error(
-                    "Erreur lors de l'analyse du message WebSocket :",
-                    error
-                );
-            }
-        }
-    };
-
-    const handleIncomingMessage = (message: Message) => {
-        if (message.type === "players") {
-            console.log(
-                "Nombre de joueurs reçus :",
-                message.data.players.length
-            );
-            if (message.data.players.length === 0) {
-                handleGameNotExist();
-            } else {
-                updatePlayers(message.data.players);
-                checkAllPlayersReady(message.data.players);
-            }
-        }
-    };
 
     const handleGameNotExist = () => {
         console.log("La partie n'existe pas, affichage de l'alerte.");
@@ -114,6 +82,50 @@ const useWebSocket = (
             },
         };
         ws.current?.send(JSON.stringify(connectData));
+    };
+
+    const handleMessage = (event: MessageEvent) => {
+        console.log("Message reçu :", event.data);
+        if (event.data === "ping") {
+            ws.current?.send("pong");
+            console.log("pong");
+        } else {
+            try {
+                const message: Message = JSON.parse(event.data);
+                handleIncomingMessage(message);
+            } catch (error) {
+                console.error(
+                    "Erreur lors de l'analyse du message WebSocket :",
+                    error
+                );
+            }
+        }
+    };
+
+    const handleStartNotification = () => {
+        console.log("Notification de démarrage de la partie reçue.");
+        // Ajoutez ici la logique pour gérer le démarrage de la partie dans votre application
+    };
+    
+    const handleIncomingMessage = (message: Message) => {
+        if (message.type === "players") {
+            console.log(
+                "Nombre de joueurs reçus :",
+                message.data.players.length
+            );
+            if (message.data.players.length === 0) {
+                handleGameNotExist();
+            } else {
+                updatePlayers(message.data.players);
+                checkAllPlayersReady(message.data.players);
+            }
+        } else if (message.type === "start") {
+            // Traitez la notification de démarrage de partie ici
+            handleStartNotification();
+        } else if (message.type === "role" || message.type === "operator") {
+            // Mettre à jour le rôle du joueur
+            setRole(message.type);
+        }
     };
 
     return ws;

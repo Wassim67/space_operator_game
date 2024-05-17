@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {
   View,
   SafeAreaView,
@@ -57,7 +57,7 @@ const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
         "https://space-operators-bb2423167918.herokuapp.com/create-game"
       );
       const gameId = response.data.id;
-      console.log(gameId);
+
       navigation.navigate("CreateGame", {
         gamerId: gamerId,
         gameId: gameId,
@@ -107,6 +107,14 @@ const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
           <CustomButton
             title={t("main_menu.join_game")}
             onPress={() => handleNavigate("JoinGame")}
+          />
+          <CustomButton
+            title={("Operator")}
+            onPress={() => handleNavigate("Operator")}
+          />
+          <CustomButton
+            title={("Intructor")}
+            onPress={() => handleNavigate("Intructor")}
           />
           <CustomButton
             title={t("main_menu.history")}
