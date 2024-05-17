@@ -64,24 +64,49 @@ const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
       });
   };
 
+  // const startGame = () => {
+  //   if(players.length < 2 || !players.every((player) => player.status)){
+  //     Alert.alert("Erreur", "Les utilisateurs ne sont pas prêts");
+  //   }
+  //   else{
+  //     axios
+  //     .post(`https://space-operators-bb2423167918.herokuapp.com/create-game`)
+  //     .then((response) => {
+  //       console.log("Réponse de la création de la partie :", response.data);
+  //       sendStartRequest(gameId);
+  //       navigation.navigate("Waiting")
+  //     })
+  //     .catch((error) => {
+  //       console.error("Erreur lors de la création de la partie :", error);
+  //       Alert.alert("Erreur", "Impossible de créer une pwartie.");
+  //     });
+  //   }
+  // };
+
   const startGame = () => {
-    if(players.length < 2 || !players.every((player) => player.status)){
+    // Vérifiez si tous les joueurs sont prêts et s'il y a plus d'un joueur dans la partie
+    if (players.length < 2 || !players.every((player) => player.status)) {
       Alert.alert("Erreur", "Les utilisateurs ne sont pas prêts");
-    }
-    else{
+    } else {
       axios
-      .post(`https://space-operators-bb2423167918.herokuapp.com/create-game`)
-      .then((response) => {
-        console.log("Réponse de la création de la partie :", response.data);
-        sendStartRequest(gameId);
-        navigation.navigate("Waiting")
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la création de la partie :", error);
-        Alert.alert("Erreur", "Impossible de créer une partie.");
-      });
+        .post(`https://space-operators-bb2423167918.herokuapp.com/create-game`)
+        .then((response) => {
+          console.log("Réponse de la création de la partie :", response.data);
+          // Vérifiez si le joueur n'est pas seul dans la partie
+          if (players.length > 1) {
+            sendStartRequest(gameId);
+            navigation.navigate("Waiting", { gameId: response.data.id, operationData: operationData }); // Transmettez les données de l'opération à la page "Waiting"
+          } else {
+            Alert.alert("Impossible", "Vous êtes seul dans la partie.");
+          }
+        })
+        .catch((error) => {
+          console.error("Erreur lors de la création de la partie :", error);
+          Alert.alert("Erreur", "Impossible de créer une partie.");
+        });
     }
   };
+  
 
   const sendStartRequest = (gameId: string) => {
     // Envoyer une demande de démarrage de partie au serveur via WebSocket
