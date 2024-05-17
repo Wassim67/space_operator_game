@@ -68,8 +68,6 @@ export const Information: React.FC<Information> = ({ navigation }) => {
           </CustomView>
         </CustomView>
       </CustomView>
-
-      {/* <CustomText2 text="Page Information" textSize="medium" color="white" /> */}
     </SafeAreaView>
   );
 };

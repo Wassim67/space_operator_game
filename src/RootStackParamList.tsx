@@ -9,8 +9,7 @@ export type RootStackParamList = {
   Thank_You: undefined;
   Credits: undefined;
   Operator: undefined;
-  Intructor: undefined;
-  // Instructor: { gameId: string; player: { id: string; name: string } }; // Correction de "Intructor" à "Instructor"
-  Waiting: { gameId: string; operationData: any }; // Mettez à jour la définition de Waiting pour inclure les paramètres
+  Instructor: undefined;
+  Waiting: undefined;
   JoinGame: { gamerId: string; gameId: string; gamerName: string };
 };

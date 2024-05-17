@@ -64,16 +64,16 @@ const CustomView: React.FC<CustomViewProps> = ({
     width: fullsize ? "100%" : widthPercentage ? `${widthPercentage}%` : undefined, // Définir la largeur en pourcentage si widthPercentage est spécifié
     height: fullsize ? "100%" : heightPercentage ? `${heightPercentage}%` : undefined, // Définir la hauteur en pourcentage si heightPercentage est spécifié
     ...style,
-    display: "flex" // Toujours en display flex
+    display: "flex",
   };
 
   const itemStyle: ViewStyle = {
-    margin: gap // Appliquer un margin pour l'espacement entre les enfants
+    margin: gap,
   };
 
   return (
     <View style={viewStyle}>
-      {React.Children.map(children, child => (
+      {React.Children.map(children, (child) => (
         <View style={itemStyle}>{child}</View>
       ))}
     </View>

@@ -27,8 +27,6 @@ const Waiting: React.FC<WaitingProps> = ({ navigation, route }) => {
     <SafeAreaView>
       <CustomView>
         <CustomText>En attente</CustomText>
-        <CustomText>ID de la partie : {gameId}</CustomText> {/* Affichez l'ID de la partie */}
-        <CustomText>Description de l'opération : {operationData.description}</CustomText> {/* Affichez la description de l'opération */}
       </CustomView>
     </SafeAreaView>
   );
