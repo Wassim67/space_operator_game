@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   SafeAreaView,
@@ -108,14 +108,14 @@ const MainMenu: React.FC<MainMenuProps> = ({ navigation }) => {
             title={t("main_menu.join_game")}
             onPress={() => handleNavigate("JoinGame")}
           />
-          <CustomButton
-            title={("Operator")}
+          {/* <CustomButton
+            title={"Operator"}
             onPress={() => handleNavigate("Operator")}
           />
           <CustomButton
-            title={("Intructor")}
-            onPress={() => handleNavigate("Intructor")}
-          />
+            title={"Instructor"}
+            onPress={() => handleNavigate("Instructor")}
+          /> */}
           <CustomButton
             title={t("main_menu.history")}
             onPress={() => handleNavigate("CreateGame")}

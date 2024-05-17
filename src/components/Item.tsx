@@ -5,6 +5,7 @@ import { GlobalTheme } from "../styles/theme";
 interface ItemProps {
   username: string;
   statut: string;
+  role: string;
 }
 
 const Item: React.FC<ItemProps> = ({ username, statut }) => {

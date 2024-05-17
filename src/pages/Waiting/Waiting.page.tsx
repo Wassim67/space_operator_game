@@ -23,7 +23,7 @@ const Waiting: React.FC<WaitingProps> = ({ navigation }) => {
   return (
     <SafeAreaView>
       <CustomView>
-        <CustomText >En attente</CustomText>
+        <CustomText>En attente</CustomText>
       </CustomView>
     </SafeAreaView>
   );

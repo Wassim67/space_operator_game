@@ -24,10 +24,8 @@ import Credits from "../pages/Credits/Credits.page";
 import Thank_You from "../pages/Thank_You/Thank_You.page";
 import JoinGamePage from "../pages/Join_Game/JoinGame_test.page";
 import OperatorPage from "../pages/Operator/Operator.page";
-import IntructorPage from "../pages/Intructor/Intructor.page";
+import InstructorPage from "../pages/Instructor/Instructor.page";
 import WaitingPage from "../pages/Waiting/Waiting.page";
-
-
 
 const Stack = createStackNavigator();
 
@@ -99,11 +97,11 @@ const AppNavigator = () => {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="Intructor"
-            component={IntructorPage}
+            name="Instructor"
+            component={InstructorPage}
             options={{ headerShown: false }}
           />
-                    <Stack.Screen
+          <Stack.Screen
             name="Waiting"
             component={WaitingPage}
             options={{ headerShown: false }}

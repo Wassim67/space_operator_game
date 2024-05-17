@@ -8,20 +8,18 @@ import { RootStackParamList } from "../../RootStackParamList";
 import Item from "../../components/Item";
 import styles from "./styles";
 import axios from "axios";
-import useWebSocket from "../../websocket";
-
-interface UserData {
-  id: string;
-  name: string;
-  status: boolean;
-}
+import useWebSocketConnection from "../../websocket/websocketConnection";
+import useWebSocketMessageHandler from "../../websocket/websocketMessageHandler";
+import Player from "../../type/Player";
+import Operator from "../Operator/Operator.page";
+import Instructor from "../Instructor/Instructor.page";
 
 interface MainMenuProps {
   navigation: StackNavigationProp<RootStackParamList, "MainMenu">;
 }
 
 const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
-  const [players, setPlayers] = useState<UserData[]>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
   const [role, setRole] = useState<string>("");
   const errorHandledRef = useRef(false);
 
@@ -30,20 +28,16 @@ const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
   const gamerName = route.params?.gamerName;
   const gamerId = route.params?.gamerId;
 
-  // Define ws outside the useEffect hook
-  const ws = useWebSocket(
+  const ws = useWebSocketConnection(gameId, gamerId, gamerName, navigation);
+  useWebSocketMessageHandler(
+    setPlayers,
+    navigation,
     gameId,
     gamerId,
-    gamerName,
-    navigation,
-    setPlayers,
-    setRole,
-    errorHandledRef
+    gamerName
   );
-
   useEffect(() => {
     return () => {
-      // Close the WebSocket connection when the component unmounts
       ws.current?.close();
     };
   }, []);
@@ -58,47 +52,57 @@ const CreateGame: React.FC<MainMenuProps> = ({ navigation }) => {
       .post(
         `https://space-operators-bb2423167918.herokuapp.com/ready/${gamerId}`
       )
+      .then(() => {
+        // setRole("instructeur");
+      })
       .catch((error) => {
         console.error("Erreur lors du changement de statut :", error);
         Alert.alert("Erreur", "Impossible de changer le statut.");
       });
   };
-
   const startGame = () => {
-    if(players.length < 2 || !players.every((player) => player.status)){
+    if (players.length < 2 || !players.every((player) => player.status)) {
       Alert.alert("Erreur", "Les utilisateurs ne sont pas prêts");
-    }
-    else{
+    } else {
       axios
-      .post(`https://space-operators-bb2423167918.herokuapp.com/create-game`)
-      .then((response) => {
-        console.log("Réponse de la création de la partie :", response.data);
-        sendStartRequest(gameId);
-        navigation.navigate("Waiting")
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la création de la partie :", error);
-        Alert.alert("Erreur", "Impossible de créer une partie.");
-      });
+        .post(`https://space-operators-bb2423167918.herokuapp.com/create-game`)
+        .then((response) => {
+          console.log("Réponse de la création de la partie :", response.data);
+          console.log(players, "stocker les players");
+          sendStartRequest(gameId);
+        })
+        .catch((error) => {
+          console.error("Erreur lors de la création de la partie :", error);
+          Alert.alert("Erreur", "Impossible de créer une partie.");
+        });
     }
   };
 
   const sendStartRequest = (gameId: string) => {
-    // Envoyer une demande de démarrage de partie au serveur via WebSocket
     const startRequest = {
-        type: "start",
-        data: {
-            gameId: gameId
-        }
+      type: "start",
+      data: {
+        gameId: gameId,
+      },
     };
     ws.current?.send(JSON.stringify(startRequest));
   };
 
-  const renderItem = ({ item }: { item: UserData }) => {
-    console.log(item.status, "statut");
-    return (
-      <Item username={item.name} statut={item.status ? "Prêt" : "Occupé"} />
-    );
+  const renderItem = ({ item }: { item: Player }) => {
+    console.log(item);
+    if (item.role === "operator") {
+      return <Operator navigation={navigation} />;
+    } else if (item.role === "instructor") {
+      return <Instructor navigation={navigation} />;
+    } else {
+      return (
+        <Item
+          username={item.name}
+          statut={item.status ? "Prêt" : "Occupé"}
+          role={item.role}
+        />
+      );
+    }
   };
 
   const handleQuit = () => {

@@ -1,12 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Alert } from "react-native";
 
-interface Player {
-    id: string;
-    username: string;
-    statut: boolean;
-}
-
+import Player from "./type/Player";
 interface Message {
     type: string;
     data: {
@@ -21,9 +16,10 @@ const useWebSocket = (
     navigation: any,
     setPlayers: React.Dispatch<React.SetStateAction<Player[]>>,
     setRole: React.Dispatch<React.SetStateAction<string>>,
-    errorHandledRef: React.MutableRefObject<boolean>
+    errorHandledRef: React.MutableRefObject<boolean>,
 ) => {
     const ws = useRef<WebSocket | null>(null);
+
 
     const handleGameNotExist = () => {
         console.log("La partie n'existe pas, affichage de l'alerte.");
@@ -36,15 +32,16 @@ const useWebSocket = (
     const updatePlayers = (players: Player[]) => {
         console.log("Mise à jour des joueurs avec les données reçues du serveur.");
         setPlayers(players);
+        console.log(players, "les joueurs mis a jour")
     };
 
+
+
     const checkAllPlayersReady = (players: Player[]) => {
-        const allPlayersReady = players.every((player) => player.statut);
+        const allPlayersReady = players.every((player) => player.status);
         if (allPlayersReady) {
             console.log("Tous les joueurs sont prêts, lancement de la partie après 10 secondes.");
-            setTimeout(() => {
-                console.log("Lancement de la partie...");
-            }, 10000);
+            console.log(allPlayersReady, "tout les joueurs pret");
         }
     };
 
@@ -104,31 +101,75 @@ const useWebSocket = (
 
     const handleStartNotification = () => {
         console.log("Notification de démarrage de la partie reçue.");
-        // Ajoutez ici la logique pour gérer le démarrage de la partie dans votre application
     };
-    
+
     const handleIncomingMessage = (message: Message) => {
         if (message.type === "players") {
+            const players = message.data?.players; // Using optional chaining
+            if (!players) {
+                console.error("Players data is missing or undefined in the WebSocket message.");
+                return;
+            }
             console.log(
                 "Nombre de joueurs reçus :",
-                message.data.players.length
+                players.length
             );
-            if (message.data.players.length === 0) {
+            if (players.length === 0) {
                 handleGameNotExist();
             } else {
-                updatePlayers(message.data.players);
-                checkAllPlayersReady(message.data.players);
+                updatePlayers(players);
+                checkAllPlayersReady(players);
             }
+        } else if (message.type === "operation") {
+            console.log("attribution des roles!");
+            // assignRolesAndStartGame(players);
+            // faire appel a user data??
+            console.log("", "AZIIIIII")
+            // Attribution aléatoire des rôles et envoi des demandes de démarrage de partie
         } else if (message.type === "start") {
             // Traitez la notification de démarrage de partie ici
             handleStartNotification();
-        } else if (message.type === "role" || message.type === "operator") {
-            // Mettre à jour le rôle du joueur
-            setRole(message.type);
         }
     };
+
+    const assignRolesAndStartGame = (players: Player[]) => {
+
+        const numPlayers = players.length;
+        const numOperators = Math.floor(numPlayers / 2); // Nombre d'opérateurs
+        let numAssignedOperators = 0;
+
+        // Parcourir les joueurs et leur attribuer aléatoirement un rôle
+        players.forEach((player) => {
+            // Générer un nombre aléatoire entre 0 et 1
+            const randomNumber = Math.random();
+
+            // Si le nombre aléatoire est inférieur à 0.5 et on n'a pas encore attribué tous les rôles d'opérateur
+            if (randomNumber < 0.5 && numAssignedOperators < numOperators) {
+                player.role = "operator";
+                numAssignedOperators++; // Incrémenter le nombre d'opérateurs attribués
+            } else {
+                player.role = "instructor";
+            }
+        });
+
+        // Mettre à jour les joueurs avec les rôles attribués
+        setPlayers(players);
+
+        // Envoyer une demande de démarrage de partie au serveur via WebSocket
+        const startRequest = {
+            type: "start",
+            data: {
+                gameId: gameId,
+            },
+        };
+        ws.current?.send(JSON.stringify(startRequest));
+    };
+
+
 
     return ws;
 };
 
 export default useWebSocket;
+
+
